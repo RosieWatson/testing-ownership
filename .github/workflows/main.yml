@@ -1,0 +1,49 @@
+name: main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+  notify_success:
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: print
+        shell: bash
+        run: |
+          echo "commit: $GH_COMMIT"
+        env:
+          GH_COMMIT: ${{ github.event.head_commit.message }}
+
+
+      # - name: Post to slack
+      #   uses: slackapi/slack-github-action@v1.25.0
+      #   env:
+      #     SLACK_BOT_TOKEN: ${{ secrets.RELEASEBOT_SLACK_TOKEN }}
+      #   with:
+      #     # channel-id: 'C021SMZ7UUU' # channel: #bot-test
+      #     channel-id: 'C5GHS74LQ' # channel: #release
+      #     payload: |
+      #       {
+      #         "text": "Zapier ⚡ ${{ github.event.pull_request.title }}",
+      #         "blocks": [
+      #           {
+      #             "type": "section",
+      #             "text": {
+      #               "type": "mrkdwn",
+      #               "text": "*Zapier ⚡* ${{ github.event.pull_request.title }}"
+      #             }
+      #           }
+      #         ]
+      #       }
