@@ -26,24 +26,23 @@ jobs:
         env:
           GH_COMMIT: ${{ github.event.head_commit.message }}
 
-
-      # - name: Post to slack
-      #   uses: slackapi/slack-github-action@v1.25.0
-      #   env:
-      #     SLACK_BOT_TOKEN: ${{ secrets.RELEASEBOT_SLACK_TOKEN }}
-      #   with:
-      #     # channel-id: 'C021SMZ7UUU' # channel: #bot-test
-      #     channel-id: 'C5GHS74LQ' # channel: #release
-      #     payload: |
-      #       {
-      #         "text": "Zapier ⚡ ${{ github.event.pull_request.title }}",
-      #         "blocks": [
-      #           {
-      #             "type": "section",
-      #             "text": {
-      #               "type": "mrkdwn",
-      #               "text": "*Zapier ⚡* ${{ github.event.pull_request.title }}"
-      #             }
-      #           }
-      #         ]
-      #       }
+      - name: Post to slack
+        uses: slackapi/slack-github-action@v1.25.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.RELEASEBOT_SLACK_TOKEN }}
+        with:
+          channel-id: 'C021SMZ7UUU' # channel: #bot-test
+          # channel-id: 'C5GHS74LQ' # channel: #release
+          payload: |
+            {
+              "text": "Zapier ⚡ ${{ github.event.head_commit.message }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Zapier ⚡* ${{ github.event.head_commit.message }}"
+                  }
+                }
+              ]
+            }
